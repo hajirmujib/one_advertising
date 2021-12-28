@@ -14,33 +14,45 @@ class DetailKeuangan extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorApp.canvasColor,
+        //!start kotak judul halaman
         appBar: AppBar(
           title: const Text(
-            "Detail Pengeluaran",
+            "Detail",
             style: TextStyle(
-                color: Colors.white,
+                color: Colors.white, //? warna judul halaman putih
+                //? ubah white menjadi warna lain dalam bahasa inggriss
                 fontWeight: FontWeight.w500,
                 fontFamily: "Poppin Semi Bold"),
           ),
           actions: [
+            //! start tombol edit
             IconButton(
                 onPressed: () {
                   return catatanK.editKeterangan();
                 },
                 icon: const Icon(Icons.edit_outlined)),
+            //! end tombol edit
+
+            //! start tombol hapus
             IconButton(
                 onPressed: () {}, icon: const Icon(CupertinoIcons.delete))
+            //! end tombol hapus
           ],
         ),
+        //! end koak judul halaman
         body: Container(
           width: 100.w,
           padding: const EdgeInsets.all(15.0),
           margin: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              color: Colors.white,
+              //? warna background halaman putih
+              //? ubah white menjadi warna lain dalam bahasa inggriss
+              borderRadius: BorderRadius.circular(10)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //! start teks tanggal
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: Row(
@@ -49,8 +61,11 @@ class DetailKeuangan extends StatelessWidget {
                     Text(
                       "Tanggal",
                       style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black87,
+                          fontSize: 15, //? ukuran teks tanggal 15
+                          //? ubah angka 15 untuk mengecilkan atau membesarkan ukuran huruf
+                          color: Colors.black87, //? warna teks black87
+                          //? ubah black87 menjadi warna lain dalam bahasa inggris
+                          //? seperti red/ green/ blue
                           fontWeight: FontWeight.w500,
                           fontFamily: "Poppin Semi Bold"),
                     ),
@@ -65,6 +80,8 @@ class DetailKeuangan extends StatelessWidget {
                   ],
                 ),
               ),
+              //! end teks tanggal
+              //! start teks waktu
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: Row(
@@ -89,6 +106,8 @@ class DetailKeuangan extends StatelessWidget {
                   ],
                 ),
               ),
+              //! end teks waktu
+              //! start teks jenis
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: Row(
@@ -113,6 +132,8 @@ class DetailKeuangan extends StatelessWidget {
                   ],
                 ),
               ),
+              //! end teks jenis
+              //! start teks jumlah
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: Row(
@@ -137,9 +158,11 @@ class DetailKeuangan extends StatelessWidget {
                   ],
                 ),
               ),
+              //! end teks jumlah
               Divider(
                 color: Colors.blue[900]!,
               ),
+              //! start teks keterangan
               Padding(
                 padding: const EdgeInsets.only(bottom: 15.0),
                 child: Text(
@@ -166,6 +189,7 @@ class DetailKeuangan extends StatelessWidget {
                       fontFamily: "Poppin Medium"),
                 ),
               ),
+              //! end teks keterangan
             ],
           ),
         ),

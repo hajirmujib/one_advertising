@@ -11,12 +11,13 @@ class DaftarAkun extends StatelessWidget {
         backgroundColor: ColorApp.canvasColor,
         appBar: AppbarApp(
           appBar: AppBar(),
-          title: "Daftar Akun",
+          title: "Daftar Akun", //?judul
         ),
         body: ListView(
           children: [
             InkWell(
-              onTap: () => Get.toNamed(Routes.detailAkun),
+              onTap: () => Get.toNamed(
+                  Routes.detailAkun), //?pindah ke halaman detail akun
               child: cardAkun(
                   image: "assets/images/logo_github.png",
                   nama: "Dimas Tri Yolanda",

@@ -10,8 +10,8 @@ void main() {
     Sizer(builder: (context, orientation, deviceType) {
       return RefreshConfiguration(
         headerBuilder: () =>
-            const WaterDropHeader(), // Configure the default header indicator. If you have the same header indicator for each page, you need to set this
-        headerTriggerDistance: 80.0, // header trigger refresh trigger distance
+            const WaterDropHeader(), //? Configure the default header indicator. If you have the same header indicator for each page, you need to set this
+        headerTriggerDistance: 80.0, //? header trigger refresh trigger distance
         child: GetMaterialApp(
           title: 'One Advertising',
           debugShowCheckedModeBanner: false,
