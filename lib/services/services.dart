@@ -48,9 +48,9 @@ class RestClient {
 
     try {
       if (method == Method.post) {
-        response = await dio.get(baseUrl + url,
+        response = await dio.post(baseUrl + url,
             options: Options(headers: {"Content-Type": "multipart/form-data"}),
-            queryParameters: params);
+            data: FormData.fromMap(params!));
       } else {
         response = await dio.get(baseUrl + url,
             options: Options(headers: {
@@ -59,7 +59,7 @@ class RestClient {
             queryParameters: params);
       }
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200||response.statusCode==201) {
         return response.data;
       } else if (response.statusCode == 401) {
         throw Exception("Unauthorized");

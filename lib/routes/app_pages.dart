@@ -1,4 +1,5 @@
 import 'package:get/route_manager.dart';
+import 'package:one_advertising/persentation/add_pekerjaan/pekerjaan_baru.dart';
 import 'package:one_advertising/persentation/catatan_keuangan/catatan_keuangan.dart';
 import 'package:one_advertising/persentation/akun/akun_page.dart';
 import 'package:one_advertising/persentation/catatan_keuangan/detail_keuangan.dart';
@@ -6,7 +7,6 @@ import 'package:one_advertising/persentation/list_pekerjaan/daftar_pekerjaan.dar
 import 'package:one_advertising/persentation/list_pekerjaan/pekerjaan_binding.dart';
 import 'package:one_advertising/persentation/detail_pekerjaan/detail_pekerjaan.dart';
 import 'package:one_advertising/persentation/home/home.dart';
-import 'package:one_advertising/persentation/pekerjaan/pekerjaan_baru.dart';
 import 'package:one_advertising/persentation/detail_akun/detail_akun.dart';
 import 'package:one_advertising/persentation/login/login_view.dart';
 
@@ -23,7 +23,10 @@ class AppPages {
         name: Routes.listPekerjaan,
         page: () => const DaftarPekerjaan(),
         binding: PekerjaanBinding()),
-    GetPage(name: Routes.addPekerjaan, page: () => const PekerjaanBaru()),
+    GetPage(
+        name: Routes.addPekerjaan,
+        page: () => const PekerjaanBaru(),
+        binding: PekerjaanBinding()),
     GetPage(name: Routes.detailKeuangan, page: () => DetailKeuangan()),
     GetPage(name: Routes.detailPekerjaan, page: () => const DetailPekerjaan()),
     GetPage(name: Routes.detailAkun, page: () => const DetailAkun()),
