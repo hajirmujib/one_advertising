@@ -4,53 +4,72 @@
 
 import 'dart:convert';
 
-List<PekerjaanModel> pekerjaanModelFromJson(String str) =>
-    List<PekerjaanModel>.from(
-        json.decode(str).map((x) => PekerjaanModel.fromJson(x)));
+PekerjaanModel pekerjaanModelFromJson(String str) =>
+    PekerjaanModel.fromJson(json.decode(str));
 
-String pekerjaanModelToJson(List<PekerjaanModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String pekerjaanModelToJson(PekerjaanModel data) => json.encode(data.toJson());
 
 class PekerjaanModel {
   PekerjaanModel({
-    this.id,
-    this.tanggal,
-    this.nama,
-    this.noTelp,
-    this.jenis,
-    this.harga,
     this.status,
-    this.keterangan,
+    this.data,
   });
 
-  String? id;
-  String? tanggal;
-  String? nama;
-  String? noTelp;
-  String? jenis;
-  int? harga;
-  String? status;
-  String? keterangan;
+  bool? status;
+  List<PekerjaanM>? data;
 
   factory PekerjaanModel.fromJson(Map<String, dynamic> json) => PekerjaanModel(
-        id: json["id"],
-        tanggal: json["tanggal"],
-        nama: json["nama"],
-        noTelp: json["no_telp"],
-        jenis: json["jenis"],
-        harga: json["harga"],
         status: json["status"],
-        keterangan: json["keterangan"],
+        data: List<PekerjaanM>.from(
+            json["data"].map((x) => PekerjaanM.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "tanggal": tanggal,
+        "status": status,
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+      };
+}
+
+class PekerjaanM {
+  PekerjaanM({
+    this.idPekerjaan,
+    this.tglMasuk,
+    this.nama,
+    this.noTelp,
+    this.jenis,
+    this.keterangan,
+    this.harga,
+    this.status,
+  });
+
+  String? idPekerjaan;
+  DateTime? tglMasuk;
+  String? nama;
+  String? noTelp;
+  String? jenis;
+  String? keterangan;
+  String? harga;
+  String? status;
+
+  factory PekerjaanM.fromJson(Map<String, dynamic> json) => PekerjaanM(
+        idPekerjaan: json["id_pekerjaan"],
+        tglMasuk: DateTime.parse(json["tgl_masuk"]),
+        nama: json["nama"],
+        noTelp: json["no_telp"],
+        jenis: json["jenis"],
+        keterangan: json["keterangan"],
+        harga: json["harga"],
+        status: json["status"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id_pekerjaan": idPekerjaan,
+        "tgl_masuk": tglMasuk!.toIso8601String(),
         "nama": nama,
         "no_telp": noTelp,
         "jenis": jenis,
+        "keterangan": keterangan,
         "harga": harga,
         "status": status,
-        "keterangan": keterangan,
       };
 }

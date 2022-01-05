@@ -1,19 +1,17 @@
+import 'package:one_advertising/controller/pekerjaan_c.dart';
 import 'package:one_advertising/model/pekerjaan_m.dart';
 import 'package:one_advertising/persentation/pekerjaan/detail_pekerjaan.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../index.dart';
 
-class ListPekerjaanBaru extends StatelessWidget {
-  ListPekerjaanBaru({
+class ListPekerjaan extends GetView<PekerjaanC> {
+  const ListPekerjaan({
     required this.list,
     required this.fetch,
     Key? key,
   }) : super(key: key);
-  final List<PekerjaanModel> list;
+  final List<PekerjaanM> list;
   final Function fetch;
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   Widget build(BuildContext context) {
@@ -25,28 +23,19 @@ class ListPekerjaanBaru extends StatelessWidget {
         color: Colors.blue,
       );
     }
-    return SmartRefresher(
-      controller: _refreshController,
-      onRefresh: () {
+    return RefreshIndicator(
+      onRefresh: () async {
         fetch;
       },
-      onLoading: () {
-        fetch;
-      },
-      enablePullUp: true,
-      header: const ClassicHeader(),
-      // header: const WaterDropHeader(),
-      physics: const BouncingScrollPhysics(),
-      footer: const ClassicFooter(
-        loadStyle: LoadStyle.ShowWhenLoading,
-        completeDuration: Duration(milliseconds: 500),
-      ),
       child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, i) {
-          PekerjaanModel x = list[i];
+          PekerjaanM x = list[i];
           return InkWell(
-            onTap: () => Get.to(() => DetailPekerjaan()),
+            onTap: () {
+              controller.idTemp.value = x.idPekerjaan.toString();
+              Get.to(() => const DetailPekerjaan());
+            },
             child: Container(
               width: 100.w,
               height: 16.h,
@@ -57,7 +46,7 @@ class ListPekerjaanBaru extends StatelessWidget {
                 children: [
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Text(x.tanggal.toString(),
+                    child: Text(x.tglMasuk.toString(),
                         style: TextStyle(
                             color: Colors.blue[900]!,
                             fontSize: 12.sp,

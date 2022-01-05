@@ -54,8 +54,10 @@ class DaftarPekerjaan extends GetView<PekerjaanC> {
           body: Obx(() {
             switch (controller.viewState.value) {
               case ViewState.busy:
-                return CircularProgressIndicator(
-                  color: Colors.blue[900],
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.blue[900],
+                  ),
                 );
 
               case ViewState.error:
@@ -63,23 +65,29 @@ class DaftarPekerjaan extends GetView<PekerjaanC> {
               case ViewState.data:
                 return TabBarView(
                   children: [
-                    ListPekerjaanBaru(
-                      list: controller.listPerkerjaan,
-                      fetch: controller.getPekerjaan,
+                    ListPekerjaan(
+                      list: controller.listPerkerjaanBaru,
+                      fetch: controller.getPekerjaanBaru,
                     ),
-                    ListPekerjaanBaru(
-                      list: controller.listPerkerjaan,
-                      fetch: controller.getPekerjaan,
+                    ListPekerjaan(
+                      list: controller.listPerkerjaanProses,
+                      fetch: controller.getPekerjaanProses,
                     ),
-                    ListPekerjaanBaru(
-                      list: controller.listPerkerjaan,
-                      fetch: controller.getPekerjaan,
+                    ListPekerjaan(
+                      list: controller.listPerkerjaanSelesai,
+                      fetch: controller.getPekerjaanSelesai,
                     ),
                   ],
                 );
               default:
-                return CircularProgressIndicator(
-                  color: Colors.blue[900],
+                return SizedBox(
+                  width: 100.w,
+                  height: 100.h,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.blue[900],
+                    ),
+                  ),
                 );
             }
           }),
