@@ -1,6 +1,6 @@
 import 'package:one_advertising/controller/pekerjaan_c.dart';
 import 'package:one_advertising/model/pekerjaan_m.dart';
-import 'package:one_advertising/persentation/pekerjaan/detail_pekerjaan.dart';
+import 'package:one_advertising/persentation/detail_pekerjaan/detail_pekerjaan.dart';
 
 import '../../index.dart';
 

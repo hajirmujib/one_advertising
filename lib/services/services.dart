@@ -57,11 +57,9 @@ class RestClient {
               'Content-Type': 'application/json',
             }),
             queryParameters: params);
-        print("method get");
       }
 
       if (response.statusCode == 200) {
-        print("status : 200");
         return response.data;
       } else if (response.statusCode == 401) {
         throw Exception("Unauthorized");

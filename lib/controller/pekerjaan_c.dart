@@ -3,10 +3,12 @@ import 'package:one_advertising/persentation/index.dart';
 import 'package:one_advertising/services/services.dart';
 
 class PekerjaanC extends GetxController {
+  var isLoading = false.obs;
   //?list pekerjaan
   final listPerkerjaanBaru = <PekerjaanM>[].obs;
   final listPerkerjaanProses = <PekerjaanM>[].obs;
   final listPerkerjaanSelesai = <PekerjaanM>[].obs;
+  final listPekerjaan = <PekerjaanM>[].obs;
 
   // ?view state reactive value
   final viewState = ViewState.initial.obs;
@@ -14,25 +16,24 @@ class PekerjaanC extends GetxController {
   final historyViewState = <ViewState>[];
   //?temporary id pekerjaan
   final idTemp = "".obs;
+  //?detail pekerjaan
+  PekerjaanM detailPekerjaan() => listPekerjaan
+      .firstWhere((element) => element.idPekerjaan == idTemp.value);
   //?get detail pekerjaan
-  Future<dynamic> getDetailPekerjaan() async {
-    _setState(ViewState.busy);
+  Future<PekerjaanM> getDetailPekerjaan() async {
+    isLoading(true);
+    PekerjaanM res;
     try {
       var dataBaru = await RestClient()
           .request("Service", Method.get, {"id_pekerjaan": idTemp});
 
       var responseDataBaru = PekerjaanModel.fromJson(dataBaru);
-
-      if (responseDataBaru.status == true) {
-        return responseDataBaru.data![0];
-      } else {
-        return "no Data";
-      }
-    } catch (e) {
-      _setState(ViewState.error);
+      res = responseDataBaru.data![0];
     } finally {
-      _setState(ViewState.data);
+      isLoading(false);
     }
+
+    return res;
   }
 
   //?get data pekerjaan
