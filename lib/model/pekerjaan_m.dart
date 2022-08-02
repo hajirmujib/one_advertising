@@ -40,6 +40,7 @@ class PekerjaanM {
     this.keterangan,
     this.harga,
     this.status,
+    this.idJenis,
   });
 
   String? idPekerjaan;
@@ -50,6 +51,7 @@ class PekerjaanM {
   String? keterangan;
   String? harga;
   String? status;
+  String? idJenis;
 
   factory PekerjaanM.fromJson(Map<String, dynamic> json) => PekerjaanM(
         idPekerjaan: json["id_pekerjaan"],
@@ -60,6 +62,7 @@ class PekerjaanM {
         keterangan: json["keterangan"],
         harga: json["harga"],
         status: json["status"],
+        idJenis: json['idJenis'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -71,5 +74,6 @@ class PekerjaanM {
         "keterangan": keterangan,
         "harga": harga,
         "status": status,
+        "idJenis": idJenis,
       };
 }

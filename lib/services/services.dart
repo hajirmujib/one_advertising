@@ -4,48 +4,29 @@ import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 
 enum Method { post, get }
+//!kantor
+// const baseUrl = "http://192.168.100.236:8888/be_one_adv/api/";
+// const urlImage = "http://192.168.100.236:8888/be_one_adv/fotoProfile/";
 
-const baseUrl = "http://192.168.100.236:8888/be_one_adv/api/";
+//!kos
+// const baseUrl = "http://192.168.100.150:8888/be_one_adv/api/";
+// const urlImage = "http://192.168.100.150:8888/be_one_adv/fotoProfile/";
+
+// //!kos mas pur
+// const baseUrl = "http://192.168.1.11:8888/be_one_adv/api/";
+// const urlImage = "http://192.168.1.11:8888/be_one_adv/fotoProfile/";
+
+//!hosting
+const baseUrl = "https://oneadv.xyz/api/";
+const urlImage = "https://oneadv.xyz/fotoProfile/";
 
 class RestClient {
-  late Dio _dio;
   final dio = Dio();
-
-  //this is for header
-  static header() => {
-        'Content-Type': 'application/json',
-      };
-
-  Future<RestClient> init() async {
-    _dio = Dio(BaseOptions(baseUrl: baseUrl, headers: header()));
-    initInterceptors();
-    return this;
-  }
-
-  void initInterceptors() {
-    _dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      if (kDebugMode) {
-        print('REQUEST[${options.method}] => PATH: ${options.path} '
-            '=> Request Values: ${options.queryParameters}, => HEADERS: ${options.headers}');
-      }
-      return handler.next(options);
-    }, onResponse: (response, handler) {
-      if (kDebugMode) {
-        print('RESPONSE[${response.statusCode}] => DATA: ${response.data}');
-      }
-      return handler.next(response);
-    }, onError: (err, handler) {
-      if (kDebugMode) {
-        print('ERROR[${err.response?.statusCode}]');
-      }
-      return handler.next(err);
-    }));
-  }
 
   Future<dynamic> request(
       String url, Method method, Map<String, dynamic>? params) async {
     Response response;
-
+    // print(params);
     try {
       if (method == Method.post) {
         response = await dio.post(baseUrl + url,
@@ -59,11 +40,12 @@ class RestClient {
             queryParameters: params);
       }
 
-      if (response.statusCode == 200||response.statusCode==201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // print(response.data);
         return response.data;
-      } else if (response.statusCode == 401) {
-        throw Exception("Unauthorized");
       } else if (response.statusCode == 500) {
+        throw Exception("Server Error");
+      } else if (response.statusCode == 400) {
         throw Exception("Server Error");
       } else {
         throw Exception("Something Went Wrong");

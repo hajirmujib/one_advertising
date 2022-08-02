@@ -1,4 +1,6 @@
 import '../../index.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:one_advertising/services/services.dart';
 
 Widget cardAkun({String? image, String? nama, String? level}) {
   return Container(
@@ -10,11 +12,16 @@ Widget cardAkun({String? image, String? nama, String? level}) {
     child: Row(
       children: [
         //!foto profile
-        Image.asset(
-          image.toString(),
+
+        CachedNetworkImage(
+          imageUrl: urlImage + image.toString(),
+          fit: BoxFit.fill,
           width:
               10.w, //? ubah angka 10, untuk mengecilkan/membesarkan ukuran foto
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
+
         Padding(
           padding: const EdgeInsets.only(
               left: 10.0), //?jarak kiri 10, ubah angka 10 untuk mengatur jarak

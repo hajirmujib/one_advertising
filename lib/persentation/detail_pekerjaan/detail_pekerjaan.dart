@@ -22,9 +22,20 @@ class DetailPekerjaan extends GetView<PekerjaanC> {
                 fontFamily: "Poppin Semi Bold"),
           ),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.edit_outlined)),
             IconButton(
-                onPressed: () {}, icon: const Icon(CupertinoIcons.delete))
+                onPressed: () async {
+                  await controller
+                      .getDetailPekerjaan()
+                      .then((value) => {Get.toNamed(Routes.editPekerjaan)});
+                },
+                icon: const Icon(Icons.edit_outlined)),
+            IconButton(
+                onPressed: () {
+                  deleteAlert(
+                      confirm: controller.deletePekerjaan,
+                      content: controller.idTemp.value);
+                },
+                icon: const Icon(CupertinoIcons.delete))
           ],
         ),
         body: FutureBuilder(
@@ -34,7 +45,8 @@ class DetailPekerjaan extends GetView<PekerjaanC> {
                 case true:
                   return const Center(child: CircularProgressIndicator());
                 case false:
-                  return cardDetailPekerjaan(data: snapshot.data!);
+                  return Obx(() => cardDetailPekerjaan(
+                      data: controller.detailPekerjaan.value));
 
                 default:
                   return const Center(child: CircularProgressIndicator());

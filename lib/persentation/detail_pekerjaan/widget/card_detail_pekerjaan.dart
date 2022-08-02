@@ -40,6 +40,8 @@ Widget cardDetailPekerjaan({required PekerjaanM data}) {
           padding: const EdgeInsets.only(bottom: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
                 "Nama",
@@ -48,14 +50,17 @@ Widget cardDetailPekerjaan({required PekerjaanM data}) {
                     color: Colors.black87,
                     fontWeight: FontWeight.w500,
                     fontFamily: "Poppin Semi Bold"),
-              ),
-              Text(
-                data.nama.toString(),
-                style: const TextStyle(
-                    fontSize: 15,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "Poppin Semi Bold"),
+              ).marginOnly(right: 100),
+              Flexible(
+                fit: FlexFit.loose,
+                child: Text(
+                  data.nama.toString(),
+                  style: const TextStyle(
+                      fontSize: 15,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "Poppin Semi Bold"),
+                ),
               ),
             ],
           ),
@@ -122,7 +127,9 @@ Widget cardDetailPekerjaan({required PekerjaanM data}) {
                     fontFamily: "Poppin Semi Bold"),
               ),
               Text(
-                data.harga.toString(),
+                oCcy.format(
+                  int.parse(data.harga.toString()),
+                ),
                 style: const TextStyle(
                     fontSize: 15,
                     color: Colors.black87,

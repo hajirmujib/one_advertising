@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:one_advertising/controller/jenis_pekerjaan_c.dart';
 import 'package:one_advertising/controller/pekerjaan_c.dart';
 import 'package:one_advertising/persentation/add_pekerjaan/widget/card_add_pekerjaan.dart';
 
 import '../index.dart';
 
 class PekerjaanBaru extends GetView<PekerjaanC> {
-  const PekerjaanBaru({Key? key}) : super(key: key);
+  PekerjaanBaru({Key? key}) : super(key: key);
+  final jenisP = Get.put(JenisPekerjaanC());
 
   @override
   Widget build(BuildContext context) {

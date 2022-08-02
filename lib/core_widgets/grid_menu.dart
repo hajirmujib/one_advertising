@@ -12,6 +12,7 @@ class GridMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(1.h),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         boxShadow: const [
@@ -26,6 +27,8 @@ class GridMenu extends StatelessWidget {
       height: 100,
       alignment: const Alignment(0, 0),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
@@ -35,6 +38,8 @@ class GridMenu extends StatelessWidget {
           ),
           Text(
             title.toString(),
+            maxLines: 2,
+            textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.blue[900]!,
                 fontSize: 10.sp,

@@ -1,8 +1,11 @@
+import 'package:one_advertising/controller/catatan_keuangan_c.dart';
+import 'package:one_advertising/model/catatan_keuangan_m.dart';
 import 'package:one_advertising/model/pekerjaan_m.dart';
 import 'package:one_advertising/persentation/index.dart';
 import 'package:one_advertising/services/services.dart';
 
 class PekerjaanC extends GetxController {
+  final catatanK = Get.put(CatatanKeuanganC());
   var isLoading = false.obs;
   //?list pekerjaan
   final listPerkerjaanBaru = <PekerjaanM>[].obs;
@@ -20,23 +23,54 @@ class PekerjaanC extends GetxController {
   final keterangan = TextEditingController().obs;
   final namaPelanggan = TextEditingController().obs;
   final notepPelanggan = TextEditingController().obs;
+  final hargaPekerjaan = TextEditingController(text: "0").obs;
   final jenisPekerjaan = "".obs;
+  final statusPekerjaan = "".obs;
+  //?list status pekerjaan
+  final listStatusPekerjaan = ["baru", "proses", "selesai"];
+  final detailPekerjaan = PekerjaanM().obs;
+
+  final pengeluaran = "0".obs;
+  final pemasukan = "0".obs;
 
   //?get detail pekerjaan
   Future<PekerjaanM> getDetailPekerjaan() async {
     isLoading(true);
     PekerjaanM res;
+
     try {
       var dataBaru = await RestClient()
           .request("Service", Method.get, {"id_pekerjaan": idTemp});
 
       var responseDataBaru = PekerjaanModel.fromJson(dataBaru);
+      detailPekerjaan.value = responseDataBaru.data![0];
+      keterangan.value.text = detailPekerjaan.value.keterangan.toString();
+      namaPelanggan.value.text = detailPekerjaan.value.nama.toString();
+      notepPelanggan.value.text = detailPekerjaan.value.noTelp.toString();
+      statusPekerjaan.value = detailPekerjaan.value.status.toString();
+      jenisPekerjaan.value = detailPekerjaan.value.idJenis.toString();
+      hargaPekerjaan.value.text = detailPekerjaan.value.harga.toString();
       res = responseDataBaru.data![0];
     } finally {
       isLoading(false);
     }
 
     return res;
+  }
+
+  //?get cashflow
+  getCashflow() async {
+    isLoading(true);
+
+    try {
+      var dataBaru = await RestClient().request("Cashflow", Method.get, {});
+      var res = dataBaru['data'];
+      pemasukan.value = res['pemasukan'].toString();
+      pengeluaran.value = res['pengeluaran'].toString();
+      isLoading(false);
+    } finally {
+      isLoading(false);
+    }
   }
 
   //?get data pekerjaan
@@ -60,12 +94,39 @@ class PekerjaanC extends GetxController {
     }
   }
 
+  //?delete data pekerjaan
+  Future<void> deletePekerjaan() async {
+    _setState(ViewState.busy);
+    try {
+      var dataBaru = await RestClient().request(
+          "Service/delete", Method.get, {"id_pekerjaan": idTemp.value});
+
+      if (dataBaru['status'] == true) {
+        Get.back();
+        Get.back();
+        succesSnacbar();
+        listPerkerjaanBaru.clear();
+        listPerkerjaanProses.clear();
+        listPerkerjaanSelesai.clear();
+        getPekerjaanBaru();
+        getPekerjaanProses();
+        getPekerjaanSelesai();
+        getCashflow();
+      } else {
+        failedSnackbar();
+      }
+    } catch (e) {
+      _setState(ViewState.error);
+    } finally {
+      _setState(ViewState.data);
+    }
+  }
+
   Future<void> getPekerjaanProses() async {
     _setState(ViewState.busy);
     try {
       var dataProses = await RestClient()
           .request("Service", Method.get, {"status": "proses"});
-
       var responseDataProses = PekerjaanModel.fromJson(dataProses);
 
       if (responseDataProses.status == true) {
@@ -102,34 +163,82 @@ class PekerjaanC extends GetxController {
   //?add new data pekerjaan
   Future<void> addPekerjaan() async {
     _setState(ViewState.busy);
+    if (namaPelanggan.value.text != "" &&
+        keterangan.value.text != "" &&
+        notepPelanggan.value.text != "" &&
+        jenisPekerjaan.value != "") {
+      try {
+        var dataBaru = await RestClient().request("Service", Method.post, {
+          "nama": namaPelanggan.value.text,
+          "keterangan": keterangan.value.text,
+          "no_telp": notepPelanggan.value.text,
+          "jenis": jenisPekerjaan.value,
+        });
+
+        if (dataBaru['status'] == true) {
+          succesSnacbar();
+          namaPelanggan.value.clear();
+          notepPelanggan.value.clear();
+          keterangan.value.clear();
+          jenisPekerjaan.value = "";
+          listPerkerjaanBaru.clear();
+          getPekerjaanBaru();
+        } else {
+          failedSnackbar();
+        }
+      } catch (e) {
+        _setState(ViewState.error);
+      } finally {
+        _setState(ViewState.data);
+        // Get.back();
+      }
+    } else {
+      failedSnackbar();
+      _setState(ViewState.data);
+    }
+  }
+
+  //? edit jenis pekerjaan
+  Future<void> editPekerjaan() async {
+    _setState(ViewState.busy);
     try {
-      var dataBaru = await RestClient().request("Service", Method.post, {
+      var dataBaru = await RestClient().request("Service/edit", Method.post, {
         "nama": namaPelanggan.value.text,
         "keterangan": keterangan.value.text,
         "no_telp": notepPelanggan.value.text,
         "jenis": jenisPekerjaan.value,
+        "harga": hargaPekerjaan.value.text,
+        "status": statusPekerjaan.value,
+        "id_pekerjaan": idTemp.value,
       });
+      if (statusPekerjaan.value == "selesai") {
+        catatanK.statusJenis.value = "Pemasukan";
+        catatanK.keterangan.value.text = keterangan.value.text;
+        catatanK.jumlah.value.text = hargaPekerjaan.value.text;
+        catatanK.addCatatanK();
+        getCashflow();
+      }
 
       if (dataBaru['status'] == true) {
-        Get.snackbar("Status", "Succes",
-            maxWidth: 100.w,
-            borderColor: Colors.blue[400],
-            borderWidth: 1.0,
-            backgroundColor: Colors.white,
-            borderRadius: 5);
+        succesSnacbar();
+        namaPelanggan.value.clear();
+        notepPelanggan.value.clear();
+        keterangan.value.clear();
+        jenisPekerjaan.value = "";
+        listPerkerjaanBaru.clear();
+        listPerkerjaanProses.clear();
+        listPerkerjaanSelesai.clear();
+        getPekerjaanBaru();
+        getPekerjaanProses();
+        getPekerjaanSelesai();
+        getDetailPekerjaan();
       } else {
-        Get.snackbar("Status", "Failed",
-            maxWidth: 100.w,
-            borderColor: Colors.red[400],
-            borderWidth: 1.0,
-            backgroundColor: Colors.white,
-            borderRadius: 5);
+        failedSnackbar();
       }
     } catch (e) {
       _setState(ViewState.error);
     } finally {
       _setState(ViewState.data);
-      // Get.back();
     }
   }
 
@@ -146,6 +255,7 @@ class PekerjaanC extends GetxController {
     getPekerjaanBaru();
     getPekerjaanProses();
     getPekerjaanSelesai();
+    getCashflow();
     super.onInit();
   }
 }

@@ -5,7 +5,8 @@ Widget textInput(
     double? width = 0,
     double? height = 0,
     TextInputType textInputType = TextInputType.text,
-    TextEditingController? controller}) {
+    TextEditingController? controller,
+    TextCapitalization textCapitalization = TextCapitalization.sentences}) {
   return Container(
     padding: const EdgeInsets.all(8.0),
     decoration: BoxDecoration(
@@ -16,6 +17,7 @@ Widget textInput(
     height: height == 0 ? 6.h : height,
     child: Center(
       child: TextFormField(
+        textCapitalization: textCapitalization,
         controller: controller,
         textAlign: TextAlign.start,
         textAlignVertical: TextAlignVertical.top,

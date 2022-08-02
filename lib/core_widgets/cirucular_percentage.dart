@@ -17,13 +17,19 @@ class CircullarPercent extends StatelessWidget {
         lineWidth: 5.0,
         percent: 0.9,
         progressColor: Colors.lime[400],
-        center: Text(
-          number.toString(),
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w500,
-              fontFamily: "Poppin Bold"),
+        center: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              number.toString(),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Poppin Bold"),
+            ),
+          ),
         ),
         footer: Text(
           title.toString(),

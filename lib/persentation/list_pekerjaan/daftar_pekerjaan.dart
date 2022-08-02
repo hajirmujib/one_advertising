@@ -1,6 +1,6 @@
 import 'package:one_advertising/controller/pekerjaan_c.dart';
 import '../index.dart';
-import 'widget/pekerjaan_baru.dart';
+import 'widget/list_pekerjaan.dart';
 
 class DaftarPekerjaan extends GetView<PekerjaanC> {
   const DaftarPekerjaan({Key? key}) : super(key: key);
@@ -59,7 +59,6 @@ class DaftarPekerjaan extends GetView<PekerjaanC> {
                     color: Colors.blue[900],
                   ),
                 );
-
               case ViewState.error:
                 return const Center(child: Text("Error :("));
               case ViewState.data:

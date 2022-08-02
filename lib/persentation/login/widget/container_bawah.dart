@@ -1,7 +1,10 @@
+import 'package:one_advertising/controller/auth_c.dart';
+
 import '../../index.dart';
 import 'widget_textfiled_login.dart';
 
 Widget containerBawah() {
+  final authC = Get.find<AuthC>();
   return Align(
     alignment: Alignment.bottomCenter,
     child: Container(
@@ -24,13 +27,20 @@ Widget containerBawah() {
                 color: Colors.white,
                 fontWeight: FontWeight.w700),
           ).marginOnly(bottom: 20),
-          textFieldLogin(hintText: "Username"),
-          textFieldLogin(
-            hintText: "Password",
-            obscureText: true,
-            suffix: const Icon(
-              Icons.remove_red_eye,
-              color: Colors.grey,
+          textFieldLogin(hintText: "Username", controller: authC.email.value),
+          Obx(
+            () => textFieldLogin(
+              controller: authC.pass.value,
+              hintText: "Password",
+              obscureText: authC.isShow.value,
+              suffix: IconButton(
+                  onPressed: () {
+                    authC.changeIsShow();
+                  },
+                  icon: const Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.grey,
+                  )),
             ),
           ),
           ElevatedButton(
@@ -40,7 +50,7 @@ Widget containerBawah() {
               ),
               backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
             ),
-            onPressed: () => Get.offAndToNamed(Routes.homeAdmin),
+            onPressed: () => authC.login(),
             child: Text(
               "Login",
               style: TextStyle(
@@ -48,7 +58,7 @@ Widget containerBawah() {
                   color: Colors.blue[700],
                   fontWeight: FontWeight.w700),
             ),
-          ).marginOnly(top: 40),
+          ).marginOnly(top: 40, bottom: 0),
         ],
       ),
     ),

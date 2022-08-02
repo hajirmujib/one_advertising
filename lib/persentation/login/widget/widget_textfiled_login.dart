@@ -1,7 +1,10 @@
 import '../../index.dart';
 
 Widget textFieldLogin(
-    {Widget? suffix, String? hintText, bool obscureText = false}) {
+    {Widget? suffix,
+    String? hintText,
+    bool obscureText = false,
+    TextEditingController? controller}) {
   return Container(
     margin: const EdgeInsets.only(top: 20),
     width: 80.w,
@@ -9,6 +12,7 @@ Widget textFieldLogin(
     // color: Colors.white,
     child: Center(
       child: TextFormField(
+        controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
           filled: true,

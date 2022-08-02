@@ -16,12 +16,7 @@ class ListPekerjaan extends GetView<PekerjaanC> {
   @override
   Widget build(BuildContext context) {
     if (list.isEmpty) {
-      return UnDraw(
-        padding: EdgeInsets.all(20.w),
-        illustration: UnDrawIllustration.empty,
-        fit: BoxFit.contain,
-        color: Colors.blue,
-      );
+      return SizedBox(width: 150, height: 150, child: emptyData);
     }
     return RefreshIndicator(
       onRefresh: () async {
@@ -34,6 +29,7 @@ class ListPekerjaan extends GetView<PekerjaanC> {
           return InkWell(
             onTap: () {
               controller.idTemp.value = x.idPekerjaan.toString();
+              print(x.idPekerjaan.toString());
               Get.to(() => const DetailPekerjaan());
             },
             child: Container(
